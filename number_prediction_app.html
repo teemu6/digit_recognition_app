@@ -16,11 +16,13 @@
       <div class="row justify-content-center mt-5">
         <div class="col-md-6">
           <div class="card">
-            <div class="card-header text-center">Draw number and predict</div>
+            <div class="card-header text-center">
+              Draw number(s) and predict
+            </div>
             <div class="card-body">
               <canvas
                 id="canvas"
-                width="125"
+                width="400"
                 height="125"
                 style="border: 1px solid #000000"
                 class="mx-auto d-block mb-2"
@@ -43,7 +45,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header text-center">
-              Upload image with number for prediction
+              Upload image with number(s) for prediction
             </div>
             <div class="card-body">
               <div class="text-center mb-2">
@@ -76,7 +78,7 @@
       var ctx = canvas.getContext("2d");
       ctx.fillStyle = "white"; // set background color to white
       ctx.fillRect(0, 0, canvas.width, canvas.height); // fill entire canvas with white
-      ctx.lineWidth = 7; // set line width to 7 pixels
+      ctx.lineWidth = 5; // set line width to 7 pixels
       var isDrawing = false;
       var lastX, lastY;
 
@@ -135,10 +137,10 @@
             var result = JSON.parse(xhr.responseText);
             if (predictionFor === "canvas") {
               document.getElementById("canvasResult").innerHTML =
-                "Prediction: " + result.class_id;
+                "Prediction: " + result.class_ids;
             } else {
               document.getElementById("imageUploadResult").innerHTML =
-                "Prediction: " + result.class_id;
+                "Prediction: " + result.class_ids;
             }
           }
         };
