@@ -10,10 +10,26 @@
 - Created a frontend web app, where the user can upload an image from his computer, or draw a number on HTML canvas element. The images can be sent to the API for prediction and the web app will show the predicted number. Styled it using Bootstrap framework.
 - Web app and the image prediction API works together locally (will bother with microservices, docker containers and such later)
 
-### Current activities
+### This week
 
 - Trying to look for a way to read multiple digits from image.
 
 ### Next week
 
 - If it seems doable without crazy effort, will try to implement the reading of multiple digits from image. Otherwise I will work on Cognitive services to turn digits to written words and see if I can get API for that up and running.
+
+## Week 2
+
+### Last week
+
+- Modified the digit recognition service, so that it looks for multiple digits in the image, then does process called "segmentation" to make a prediction for each digit in its own segment, then combine it as an array of numbers. Had to add some white padding to the segments around the digits, because the model was trained with images that had it too, so it was necessary thing to do or the model did not recognize the digits.
+- Modified also the frontend web app, so that the canvas to draw numbers is wider for making easier to write multiple digits. The API response was now an array of numbers, so modified the client side to accept that type of response
+
+### This week
+
+- Working on making a microservice, that will turn digits into english written numbers, such as 25 -> "twenty-five".
+- Maybe if I have time I will then do another service that does translations to other languages, using Azure cognitive services.
+
+### Next week
+
+- Will work on making the rest microservices, such as translation or text to speech
