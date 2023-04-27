@@ -37,3 +37,14 @@
 ## Week 3
 
 - Sorry dear Scrum Team, I was on a vacation and couldn't do anything useful. No progress
+
+## Week 4
+
+### This week
+
+- Created a digit translation service, using node.js and express library. For now it is just an API with endpoint, that uses GET method where the user will provide the number and a language code as a query parameter. It will then convert the number to an english written number using "number-to-words" npm package. This english word will be then sent to Azure Cognitive Services Translator service I created in the Azure. The API will then return the translated text as response. For example if I request the endpoint with "/translate?number=123&langCode=fi" I will get a response "sata kaksikymmentäkolme". I will turn this API later on to a real microservice
+- Will try to see if I can implement the frontend app to use this API
+
+### Next week
+
+- Digit translation API integration with the frontend app, maybe add an option for the user to define language code in the UI that will be used in the translation along with the uploaded/drawn picture
