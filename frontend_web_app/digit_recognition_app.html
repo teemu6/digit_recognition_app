@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Predict number app</title>
+    <title>Digit recognition app</title>
     <!-- add Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
@@ -17,7 +17,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header text-center">
-              Draw number(s) and predict
+              Draw number(s) and recognize
             </div>
             <div class="card-body">
               <canvas
@@ -28,8 +28,11 @@
                 class="mx-auto d-block mb-2"
               ></canvas>
               <div class="d-flex justify-content-center gap-2">
-                <button class="btn btn-primary mr-2" onclick="predictCanvas()">
-                  Predict
+                <button
+                  class="btn btn-primary mr-2"
+                  onclick="recognizeCanvas()"
+                >
+                  Recognize
                 </button>
                 <button class="btn btn-danger" onclick="clearCanvas()">
                   Clear canvas
@@ -45,7 +48,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header text-center">
-              Upload image with number(s) for prediction
+              Upload image with number(s) for recognition
             </div>
             <div class="card-body">
               <div class="text-center mb-2">
@@ -58,7 +61,7 @@
               <input
                 class="form-control mb-2"
                 type="file"
-                onchange="predictUploadedImage()"
+                onchange="recognizeUploadedImage()"
               />
               <strong id="imageUploadResult" class="mt-2"></strong>
             </div>
@@ -104,7 +107,7 @@
         isDrawing = false;
       }
 
-      function predictUploadedImage() {
+      function recognizeUploadedImage() {
         var preview = document.getElementById("imagePreview");
         var file = document.querySelector("input[type=file]").files[0];
         var reader = new FileReader();
@@ -113,7 +116,7 @@
           preview.src = reader.result;
           preview.style.display = "inline";
           if (preview.src != "") {
-            predict(preview.src, "image");
+            recognize(preview.src, "image");
           }
         };
 
@@ -125,22 +128,22 @@
         }
       }
 
-      function predictCanvas() {
-        predict(canvas.toDataURL("image/png"), "canvas");
+      function recognizeCanvas() {
+        recognize(canvas.toDataURL("image/png"), "canvas");
       }
 
-      function predict(img, predictionFor) {
+      function recognize(img, recognitionFor) {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:5000/predict", true);
+        xhr.open("POST", "http://localhost:5000/recognizeimage", true);
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
             var result = JSON.parse(xhr.responseText);
-            if (predictionFor === "canvas") {
+            if (recognitionFor === "canvas") {
               document.getElementById("canvasResult").innerHTML =
-                "Prediction: " + result.class_ids;
+                "Recognized: " + result.class_ids;
             } else {
               document.getElementById("imageUploadResult").innerHTML =
-                "Prediction: " + result.class_ids;
+                "Recognized: " + result.class_ids;
             }
           }
         };

@@ -62,7 +62,7 @@ def segment_image(img):
         
     return predictions
 
-@app.route('/predict', methods=['POST'])
+@app.route('/recognizeimage', methods=['POST'])
 def predict_number():
     # get the image from the POST request
     img_file = request.files['image']
