@@ -33,3 +33,7 @@
 ### Next week
 
 - Will work on making the rest microservices, such as translation or text to speech
+
+## Week 3
+
+- Sorry dear Scrum Team, I was on a vacation and couldn't do anything useful. No progress
