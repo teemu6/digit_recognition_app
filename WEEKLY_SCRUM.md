@@ -48,3 +48,16 @@
 ### Next week
 
 - Digit translation API integration with the frontend app, maybe add an option for the user to define language code in the UI that will be used in the translation along with the uploaded/drawn picture
+
+## Week 5
+
+### This week
+
+- Added a functionality in the frontend, so that user can select a language from predefined options, that will be used when calling translation microservice
+- Every time recognize action is done from frontend (canvas drawing or uploading image), the frontend first calls digit recognition microservice, which responds with array of digits, that were recognized
+- The moment the frontend receives the array of recognized digits (e.g. [1, 2, 3]), it will then turn that as number (e.g. "123"), then it will send that to the translation service API, along with the languagecode.
+- The digit translation microservice then converts that to written english, then send it to Azure Translation Service, which response will be forwarded back to the client, and the translated text will be displayed to the user
+
+### Next week
+
+- Will work on speech microservice, that takes text and language code, that will be turned to speech (in audio format), using Azure text-to-speech service
