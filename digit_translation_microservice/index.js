@@ -5,14 +5,14 @@ const { v4: uuidv4 } = require("uuid");
 const numberConvert = require("number-to-words");
 
 const app = express();
-const port = 3000;
+const port = 5006;
 
 const azureKey = process.env.AZURE_ACCESS_KEY;
 const azureEndpoint = process.env.AZURE_ENDPOINT;
 const azureLocation = process.env.AZURE_LOCATION;
 
 // Endpoint to translate a number to the specified language code
-// Use example: http://localhost:3000/translate?number=123&langCode=fr
+// Use example: http://localhost:5006/translate?number=123&langCode=fr
 app.get("/translate", async (req, res) => {
   const { number, langCode } = req.query;
 
