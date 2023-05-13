@@ -122,6 +122,7 @@
                   style="white-space: pre-line"
                 ></p
               ></strong>
+              <audio id="audioPlayerForCanvas" controls></audio>
             </div>
           </div>
         </div>
@@ -232,6 +233,7 @@
                   style="white-space: pre-line"
                 ></p
               ></strong>
+              <audio id="audioPlayerForImageUpload" controls></audio>
             </div>
           </div>
         </div>
@@ -245,6 +247,9 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      var digitRecognitionServiceAddress = "http://localhost:5005";
+      var digitTranslationServiceAddress = "http://localhost:5006";
+      var speechServiceAddress = "http://localhost:5007";
       var recognizedDigitsOnCanvas = [];
       var recognizedDigitsOnOploadedImage = [];
       var canvas = document.getElementById("canvas");
@@ -318,10 +323,10 @@
       /**
        * Sends image to the recognition service and displays the result in the web app
        * @param {dataURI} img - image in data URI format, that holds the digit(s) to be recognized
-       * @param {string} predictionFor - "canvas" or "image"
+       * @param {string} recognitionFor - "canvas" or "image"
        */
-      function callRecognitionService(img, predictionFor) {
-        const url = "http://localhost:5005/recognizeimage";
+      function callRecognitionService(img, recognitionFor) {
+        const url = digitRecognitionServiceAddress + "/recognizeimage";
         const formData = new FormData();
         const blob = dataURItoBlob(img);
         formData.append("image", blob, "image.png");
@@ -337,7 +342,7 @@
             return response.json();
           })
           .then((result) => {
-            if (predictionFor === "canvas") {
+            if (recognitionFor === "canvas") {
               document.getElementById("canvasResult").innerHTML =
                 "Recognized: " + result.digits;
               recognizedDigitsOnCanvas = result.digits;
@@ -371,15 +376,15 @@
        * Translates the recognized digit(s) to the selected language
        * @param {string} number - recognized digit(s) as a number
        * @param {string} languageCode - language code of the selected language
-       * @param {string} predictionFor - "canvas" or "image"
+       * @param {string} translationFor - "canvas" or "image"
        */
-      function callTranslationService(number, languageCode, predictionFor) {
-        const url = `http://localhost:5006/translate?number=${number}&langCode=${languageCode}`;
+      function callTranslationService(number, languageCode, translationFor) {
+        const url = `${digitTranslationServiceAddress}/translate?number=${number}&langCode=${languageCode}`;
 
         fetch(url)
           .then((response) => response.text())
           .then((translatedText) => {
-            if (predictionFor === "canvas") {
+            if (translationFor === "canvas") {
               document.getElementById("canvasResultTranslated").innerHTML =
                 'Digits as a number, translated to selected language: \n "' +
                 translatedText +
@@ -390,6 +395,11 @@
                 translatedText +
                 '"';
             }
+            this.callSpeechService(
+              languageCode,
+              translatedText,
+              translationFor
+            );
           })
           .catch((error) => console.error(error));
       }
@@ -407,6 +417,41 @@
           ia[i] = byteString.charCodeAt(i);
         }
         return new Blob([ab], { type: "image/png" });
+      }
+
+      function callSpeechService(languageCode, text, speechFor) {
+        fetch(`${speechServiceAddress}/text-to-speech`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            languageCode,
+            text: text,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const audioData = data.audio;
+            const audioUrl = `data:audio/mp3;base64,${audioData}`;
+            let audioPlayerElement;
+
+            if (speechFor === "canvas") {
+              audioPlayerElement = document.getElementById(
+                "audioPlayerForCanvas"
+              );
+            } else {
+              audioPlayerElement = document.getElementById(
+                "audioPlayerForImageUpload"
+              );
+            }
+            audioPlayerElement.src = audioUrl;
+            audioPlayerElement.play();
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("Error occurred: " + error.message);
+          });
       }
 
       /**
