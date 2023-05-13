@@ -61,3 +61,14 @@
 ### Next week
 
 - Will work on speech microservice, that takes text and language code, that will be turned to speech (in audio format), using Azure text-to-speech service
+
+## Week 6
+
+### This week
+
+- Created the "speech microservice", which is an node-app once again. It uses express library to serve API, that takes a language code and text as a parameter, which will be used to get speech as an mp3 format from Azure text-to-speech service. The audio file will be base64 encoded and sent back as response to the client.
+- Updated the front end tool to test the microservices, with an audio element, that can play the received audio files
+
+## Next week
+
+- Only a couple weeks left until the assignment should be ready, so I think im going to have start working on getting those microservices inside containers and set them up to run on minikube. If I don't have too much trouble with those, I might try to look if I can get some redundant cloud services for the Azure ones, but we'll see.
