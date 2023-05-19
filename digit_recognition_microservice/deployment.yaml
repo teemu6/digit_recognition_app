@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: digit-recognition-service
+spec:
+  selector:
+    app: digit-recognition
+  ports:
+    - name: http
+      port: 5005
+      targetPort: 5005
+  type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digit-recognition-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: digit-recognition
+  template:
+    metadata:
+      labels:
+        app: digit-recognition
+    spec:
+      containers:
+        - name: digit-recognition-container
+          image: digit_recognition_microservice
+          ports:
+            - containerPort: 5005
+          imagePullPolicy: Never
