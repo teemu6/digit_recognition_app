@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: digit-translation-service
+spec:
+  selector:
+    app: digit-translation
+  ports:
+    - name: http
+      port: 5006
+      targetPort: 5006
+  type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digit-translation-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: digit-translation
+  template:
+    metadata:
+      labels:
+        app: digit-translation
+    spec:
+      containers:
+        - name: digit-translation-container
+          image: digit_translation_microservice
+          ports:
+            - containerPort: 5006
+          imagePullPolicy: Never
