@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: digit-recognition-app-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /recognizeimage
+        pathType: Prefix
+        backend:
+          service:
+            name: digit-recognition-service
+            port:
+              number: 5005
+      - path: /translate
+        pathType: Prefix
+        backend:
+          service:
+            name: digit-translation-service
+            port:
+              number: 5006
+      - path: /text-to-speech
+        pathType: Prefix
+        backend:
+          service:
+            name: speech-microservice-service
+            port:
+              number: 5007
