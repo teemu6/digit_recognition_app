@@ -72,3 +72,13 @@
 ## Next week
 
 - Only a couple weeks left until the assignment should be ready, so I think im going to have start working on getting those microservices inside containers and set them up to run on minikube. If I don't have too much trouble with those, I might try to look if I can get some redundant cloud services for the Azure ones, but we'll see.
+
+## Week 7
+### This week
+- Created Dockerfiles, kubernetes service and deployment config (as yaml-files) for all of the microservices
+- The digit recognition microservice written in Python caused problems, when trying to use Alpine base image for the docker. The image creation process took incredible amount of time each try, and there was always some errors popping up, so I had to discard that plan, as it was taking days without no quarantee that it will work. So instead (against the assignment rules I know) I used slim-buster base image with two stage docker build, to make image size a little bit smaller. The final image for the microservice is about 2.3Gb, which I am not too happy about, but I couldn't do it better, as the microservice uses keras-library, which depends on Tensorflow, which is quite big library.
+- The other microservices (digit translation and speech service) did not cause any problems and the Alpine based images are only around 200Mb each.
+- Finally, I made an Ingress configuration (as .yaml), so that I can easily access all of the microservices running in minikube
+
+### Next week
+- Only little over week left, so its time to create some documents for the assignment returnables, make readmes for each microservices and push this repository to GitHub.
