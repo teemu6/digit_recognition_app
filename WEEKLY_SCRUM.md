@@ -82,3 +82,9 @@
 
 ### Next week
 - Only little over week left, so its time to create some documents for the assignment returnables, make readmes for each microservices and push this repository to GitHub.
+
+## Week 8
+
+### This week
+- Created README files for all the microservices and the whole project, which include architecture diagram, technical specifications, requirements, usage instructions and some demos.
+- Uploaded the project repository to GitHub
